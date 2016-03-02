@@ -1,0 +1,6 @@
+MINI2440 BOARD
+M:	Frank zhang <coolfrankzhang@gmail.com>
+S:	Maintained
+F:	board/samsung/mini2440/
+F:	include/configs/mini2440.h
+F:	configs/mini2440_defconfig
