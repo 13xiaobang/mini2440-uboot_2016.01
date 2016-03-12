@@ -18,10 +18,11 @@
  * (easy to change)
  */
 #define CONFIG_S3C24X0		/* This is a SAMSUNG S3C24x0-type SoC */
-#define CONFIG_S3C2410		/* specifically a SAMSUNG S3C2410 SoC */
-#define CONFIG_MINI2440		/* on a SAMSUNG SMDK2410 Board */
+#define CONFIG_S3C2440		/* specifically a SAMSUNG S3C2440 SoC */
+#define CONFIG_MINI2440		/* on a SAMSUNG SMDK2440 Board */
+#define CONFIG_S3C2440_NAND_BOOT
 
-#define CONFIG_SYS_TEXT_BASE	0x0
+#define CONFIG_SYS_TEXT_BASE	0x33d00000
 
 
 #define CONFIG_SYS_ARM_CACHE_WRITETHROUGH
@@ -192,5 +193,5 @@
 				GENERATED_GBL_DATA_SIZE)
 
 #define CONFIG_BOARD_EARLY_INIT_F
-
+#define CONFIG_MINI2440_ASM_PRINT
 #endif /* __CONFIG_H */

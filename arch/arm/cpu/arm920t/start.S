@@ -80,11 +80,57 @@ copyex:
 	str	r1, [r0]
 # endif
 
+# if defined(CONFIG_MINI2440)
+#  define LOCKTIME		0x4C000000
+#  define MPLLCON			0x4C000004
+#  define UPLLCON			0x4C000008
+
+#  define CLKDIV_VAL	5
+#  define M_MDIV	0x7f				/* XTal=12.0MHz MPLL=405MHz */
+#  define M_PDIV	2
+#  define M_SDIV	1
+#  define U_MDIV	0x38				/* XTal=12.0MHz UPLL=48MHz */
+#  define U_PDIV	2
+#  define U_SDIV	2
+
+	ldr	r1, =0x7fff
+	ldr	r0, =INTSUBMSK
+	str	r1, [r0]
+
+	ldr	r0,=LOCKTIME						/* ÉèÖÃU_LTIMEºÍM_LTIME */
+	ldr	r1,=0x0fff0fff
+	str	r1,[r0]
+
+	ldr	r0, =CLKDIVN						/* Fclk:Hclk:Pclk = 1:4:8 */
+	ldr	r1, =CLKDIV_VAL
+	str	r1, [r0]
+
+	mrc	p15, 0, r0, c1, c0, 0			/* ×ÜÏßÄ£Ê½ÉèÎªÒì²½Ä£Ê½ */
+	orr	r0, r0, #0xc0000000
+	mcr	p15, 0, r0, c1, c0, 0
+
+	ldr	r0,=UPLLCON						/* ÅäÖÃUPLL */
+	ldr	r1,=((U_MDIV<<12) + (U_PDIV<<4) + U_SDIV)
+	str	r1,[r0]
+	nop													/* ÎªÈ·±£Ó²¼þÍê³É²Ù×÷£¬ÖÁÉÙÐè7¸öÊ±ÖÓÖÜÆÚ */
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+
+	ldr	r0,=MPLLCON						/* ÅäÖÃMPLL */
+	ldr	r1,=((M_MDIV<<12) + (M_PDIV<<4) + M_SDIV)
+	str	r1,[r0]
+#else
 	/* FCLK:HCLK:PCLK = 1:2:4 */
 	/* default FCLK is 120 MHz ! */
 	ldr	r0, =CLKDIVN
 	mov	r1, #3
 	str	r1, [r0]
+#endif	/* CONFIG_MINI2440 */
+
 #endif	/* CONFIG_S3C24X0 */
 
 	/*
@@ -95,6 +141,9 @@ copyex:
 	bl	cpu_init_crit
 #endif
 
+#ifdef CONFIG_MINI2440_ASM_PRINT
+	bl 	print_init_log
+#endif
 	bl	_main
 
 /*------------------------------------------------------------------------------*/
@@ -114,7 +163,86 @@ c_runtime_cpu_setup:
  *
  *************************************************************************
  */
+#ifdef CONFIG_MINI2440_ASM_PRINT
+print_init_log:
 
+/*init uart io*/
+	ldr	r0, =0x56000070
+	ldr	r1, =0x002AFAAA
+	str	r1, [r0]
+
+	ldr	r0, =0x56000078
+	ldr	r1, =0x000007FF
+	str	r1, [r0]
+
+#define MINI2440_ULCON0 0x50000000
+#define MINI2440_UCON0 0x50000004
+#define MINI2440_UFCON0 0x50000008
+#define MINI2440_UMCON0 0x5000000c
+#define MINI2440_UBRDIV0 0x50000028
+
+/*init uart controller*/
+	ldr r0,=MINI2440_ULCON0
+	ldr r1,=0x3
+	str r1,[r0]
+
+	ldr r0,=MINI2440_UCON0
+	ldr r1,=0x245
+	str r1,[r0]
+
+	ldr r0,=MINI2440_UFCON0
+	ldr r1,=0x1
+	str r1,[r0]
+
+	ldr r0,=MINI2440_UMCON0
+	ldr r1,=0x0
+	str r1,[r0]
+
+	ldr r0,=MINI2440_UBRDIV0
+	ldr r1,=0x1a
+	str r1,[r0]
+
+/*send char to tx buffer*/
+	ldr	r0, =0x50000020
+
+	ldr	r1,='T'
+	str r1, [r0]
+
+	ldr	r1, ='h'
+	str r1, [r0]
+
+	ldr	r1, ='i'
+	str r1, [r0]
+
+	ldr	r1, ='s'
+	str r1, [r0]
+
+	ldr	r1, =' '
+	str r1, [r0]
+
+	ldr	r1, ='i'
+	str r1, [r0]
+
+	ldr r1, ='s'
+	str r1, [r0]
+
+	ldr	r1, =' '
+	str r1, [r0]
+
+	ldr	r1, ='l'
+	str r1, [r0]
+
+	ldr	r1, ='o'
+	str r1, [r0]
+
+	ldr	r1, ='g'
+	str r1, [r0]
+
+	ldr	r1, ='.'
+	str r1, [r0]
+
+	mov pc, lr
+#endif
 
 #ifndef CONFIG_SKIP_LOWLEVEL_INIT
 cpu_init_crit:

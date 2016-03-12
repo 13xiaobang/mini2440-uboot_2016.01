@@ -32,7 +32,7 @@ __weak void arch_setup_gd(struct global_data *gd_ptr)
 ulong board_init_f_mem(ulong top)
 {
 	struct global_data *gd_ptr;
-#ifndef _USE_MEMCPY
+#if 1
 	int *ptr;
 #endif
 
@@ -42,7 +42,7 @@ ulong board_init_f_mem(ulong top)
 	top -= sizeof(struct global_data);
 	top = ALIGN(top, 16);
 	gd_ptr = (struct global_data *)top;
-#ifdef _USE_MEMCPY
+#if 0
 	memset(gd_ptr, '\0', sizeof(*gd));
 #else
 	for (ptr = (int *)gd_ptr; ptr < (int *)(gd_ptr + 1); )

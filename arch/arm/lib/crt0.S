@@ -59,6 +59,16 @@
  *
  * For more information see 'Board Initialisation Flow in README.
  */
+#include <asm-offsets.h>
+#include <config.h>
+#include <linux/linkage.h>
+
+#if 0
+.globl _end_ofs
+_end_ofs:
+	.word __image_copy_end - __image_copy_start
+#endif
+
 
 /*
  * entry point of crt0 sequence
@@ -85,12 +95,13 @@ ENTRY(_main)
 	mov	r0, sp
 	bl	board_init_f_mem
 	mov	sp, r0
-
+#ifndef CONFIG_S3C2440_NAND_BOOT
 	mov	r0, #0
 	bl	board_init_f
+#endif
 
 #if ! defined(CONFIG_SPL_BUILD)
-
+#ifndef CONFIG_S3C2440_NAND_BOOT
 /*
  * Set up intermediate environment (new sp and gd) and call
  * relocate_code(addr_moni). Trick here is that we'll return
@@ -109,14 +120,33 @@ ENTRY(_main)
 	sub	r9, r9, #GD_SIZE		/* new GD is below bd */
 
 	adr	lr, here
+#ifndef CONFIG_S3C2440_NAND_BOOT
 	ldr	r0, [r9, #GD_RELOC_OFF]		/* r0 = gd->reloc_off */
+#else
+	ldr	r0, =(CONFIG_SYS_TEXT_BASE)
+#endif
 	add	lr, lr, r0
 #if defined(CONFIG_CPU_V7M)
 	orr	lr, #1				/* As required by Thumb-only */
 #endif
+#ifndef CONFIG_S3C2440_NAND_BOOT
 	ldr	r0, [r9, #GD_RELOCADDR]		/* r0 = gd->relocaddr */
+#else
+	// relocate addr will be set in relocate.s
+#endif
+
+#endif
+#ifdef CONFIG_S3C2440_NAND_BOOT
+	ldr	r0, =(CONFIG_SYS_TEXT_BASE)
+	adr	lr, here
+	add	lr, lr, r0
+#endif
 	b	relocate_code
 here:
+#ifdef CONFIG_S3C2440_NAND_BOOT
+	mov	r0, #0
+	bl	board_init_f
+#endif
 /*
  * now relocate vectors
  */

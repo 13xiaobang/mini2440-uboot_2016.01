@@ -7,7 +7,7 @@
 
 # core
 ifndef CONFIG_SPL_BUILD
-obj-y += init/
+extra-$(CONFIG_S3C2440_NAND_BOOT) += init/board_init.o
 obj-y += main.o
 obj-y += exports.o
 obj-y += hash.o
