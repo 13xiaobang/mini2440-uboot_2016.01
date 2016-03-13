@@ -131,13 +131,11 @@ ENTRY(_main)
 #endif
 #ifndef CONFIG_S3C2440_NAND_BOOT
 	ldr	r0, [r9, #GD_RELOCADDR]		/* r0 = gd->relocaddr */
-#else
-	// relocate addr will be set in relocate.s
 #endif
 
 #endif
 #ifdef CONFIG_S3C2440_NAND_BOOT
-	ldr	r0, =(CONFIG_SYS_TEXT_BASE)
+	ldr r0, =(CONFIG_SYS_TEXT_BASE)
 	adr	lr, here
 	add	lr, lr, r0
 #endif
@@ -146,6 +144,12 @@ here:
 #ifdef CONFIG_S3C2440_NAND_BOOT
 	mov	r0, #0
 	bl	board_init_f
+	#if 0
+	ldr	sp, [r9, #GD_START_ADDR_SP]	/* sp = gd->start_addr_sp */
+	bic	sp, sp, #7	/* 8-byte alignment for ABI compliance */
+	ldr	r9, [r9, #GD_BD]		/* r9 = gd->bd */
+	sub	r9, r9, #GD_SIZE		/* new GD is below bd */
+	#endif
 #endif
 /*
  * now relocate vectors

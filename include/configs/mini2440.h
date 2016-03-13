@@ -37,9 +37,19 @@
 /*
  * Hardware drivers
  */
+ #if 0
 #define CONFIG_CS8900		/* we have a CS8900 on-board */
 #define CONFIG_CS8900_BASE	0x19000300
 #define CONFIG_CS8900_BUS16	/* the Linux driver does accesses as shorts */
+#endif
+
+#define CONFIG_NET_MULTI
+#define CONFIG_DRIVER_DM9000    1
+#define CONFIG_DM9000_NO_SROM   1
+#define CONFIG_DM9000_BASE      0x20000300
+#define DM9000_IO			CONFIG_DM9000_BASE
+#define DM9000_DATA		(CONFIG_DM9000_BASE + 4)
+
 
 /*
  * select serial console configuration
@@ -93,9 +103,12 @@
 #define CONFIG_RESET_TO_RETRY
 #define CONFIG_ZERO_BOOTDELAY_CHECK
 
-#define CONFIG_NETMASK		255.255.255.0
-#define CONFIG_IPADDR		10.0.0.110
-#define CONFIG_SERVERIP		10.0.0.1
+#define CONFIG_NET_RANDOM_ETHADDR
+#define CONFIG_ETHADDR   08:00:3e:26:0a:5b  //开发板MAC地址
+#define CONFIG_NETMASK   255.255.255.0
+#define CONFIG_IPADDR    192.168.1.10      //开发板IP地址
+#define CONFIG_SERVERIP  192.168.1.2      //Linux主机IP地址
+
 
 #if defined(CONFIG_CMD_KGDB)
 #define CONFIG_KGDB_BAUDRATE	115200	/* speed to run kgdb serial port */
@@ -168,8 +181,11 @@
  * NAND configuration
  */
 #ifdef CONFIG_CMD_NAND
-#define CONFIG_NAND_S3C2410
-#define CONFIG_SYS_S3C2410_NAND_HWECC
+#define CONFIG_NAND_S3C2440
+/*#define CONFIG_S3C2440_NAND_HWECC*/
+/*#define CONFIG_NAND_S3C2410*/
+/*#define CONFIG_SYS_S3C2410_NAND_HWECC*/
+
 #define CONFIG_SYS_MAX_NAND_DEVICE	1
 #define CONFIG_SYS_NAND_BASE		0x4E000000
 #endif
@@ -187,6 +203,17 @@
 #define CONFIG_YAFFS2
 #define CONFIG_RBTREE
 
+/*
+ * SD Card support
+ * */
+#define CONFIG_GENERIC_MMC
+#define CONFIG_CMD_MMC
+#define CONFIG_MMC  1
+#define CONFIG_S3C_SDI
+#define CONFIG_CMD_FAT
+#define CONFIG_DOS_PARTITIONE
+
+
 /* additions for new relocation code, must be added to all boards */
 #define CONFIG_SYS_SDRAM_BASE	PHYS_SDRAM_1
 #define CONFIG_SYS_INIT_SP_ADDR	(CONFIG_SYS_SDRAM_BASE + 0x1000 - \
@@ -194,4 +221,6 @@
 
 #define CONFIG_BOARD_EARLY_INIT_F
 #define CONFIG_MINI2440_ASM_PRINT
+#define CONFIG_CMD_BURN_IMG
+
 #endif /* __CONFIG_H */

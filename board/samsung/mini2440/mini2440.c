@@ -122,6 +122,9 @@ int board_eth_init(bd_t *bis)
 #ifdef CONFIG_CS8900
 	rc = cs8900_initialize(0, CONFIG_CS8900_BASE);
 #endif
+#ifdef CONFIG_DRIVER_DM9000
+        rc = dm9000_initialize(bis);
+#endif
 	return rc;
 }
 #endif
@@ -137,3 +140,10 @@ ulong board_flash_get_legacy(ulong base, int banknum, flash_info_t *info)
 	info->interface = FLASH_CFI_X16;
 	return 1;
 }
+
+#ifdef CONFIG_GENERIC_MMC
+int board_mmc_init(bd_t *bis)
+{
+	return s3cmmc_initialize(bis, NULL,NULL);
+}
+#endif

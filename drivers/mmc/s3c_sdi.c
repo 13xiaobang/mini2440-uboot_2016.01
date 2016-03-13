@@ -279,8 +279,8 @@ static const struct mmc_ops s3cmmc_ops = {
 	.send_cmd	= s3cmmc_send_cmd,
 	.set_ios	= s3cmmc_set_ios,
 	.init		= s3cmmc_init,
-	.getcd		= s3cmmc_getcd,
-	.getwp		= s3cmmc_getwp,
+	//.getcd		= s3cmmc_getcd,
+	//.getwp		= s3cmmc_getwp,
 };
 
 int s3cmmc_initialize(bd_t *bis, int (*getcd)(struct mmc *),
@@ -298,11 +298,11 @@ int s3cmmc_initialize(bd_t *bis, int (*getcd)(struct mmc *),
 	cfg->name = "S3C MMC";
 	cfg->ops = &s3cmmc_ops;
 	cfg->voltages = MMC_VDD_32_33 | MMC_VDD_33_34;
-	cfg->host_caps = MMC_MODE_4BIT | MMC_MODE_HS;
+	cfg->host_caps = MMC_MODE_4BIT | MMC_MODE_HS |MMC_MODE_HS_52MHz;
 	cfg->f_min = 400000;
 	cfg->f_max = get_PCLK() / 2;
 	cfg->b_max = 0x80;
-
+	cfg->f_max /= 2;
 #if defined(CONFIG_S3C2410)
 	/*
 	 * S3C2410 has some bug that prevents reliable
