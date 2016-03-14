@@ -24,13 +24,6 @@
 	.section	.text.relocate_vectors,"ax",%progbits
 	.weak		relocate_vectors
 
-#ifdef CONFIG_S3C2440_NAND_BOOT
-.globl _TEXT_BASE
-_TEXT_BASE:
-	.word	CONFIG_SYS_TEXT_BASE
-
-#endif
-
 ENTRY(relocate_vectors)
 
 #ifdef CONFIG_CPU_V7M
@@ -84,7 +77,6 @@ ENDPROC(relocate_vectors)
  */
 
 ENTRY(relocate_code)
-#ifndef CONFIG_S3C2440_NAND_BOOT
 	ldr	r1, =__image_copy_start	/* r1 <- SRC &__image_copy_start */
 	subs	r4, r0, r1		/* r4 <- relocation offset */
 	beq	relocate_done		/* skip relocation */
@@ -95,28 +87,7 @@ copy_loop:
 	stmia	r0!, {r10-r11}		/* copy to   target address [r0]    */
 	cmp	r1, r2			/* until source end address [r2]    */
 	blo	copy_loop
-#endif
 
-#ifdef CONFIG_S3C2440_NAND_BOOT
-	//ldr	sp, =0x30008000
-	ldr    r0, = __image_copy_start
-	ldr 	r1, =__image_copy_end
-	sub  r1, r1, r0
-	mov	r1, r1, LSR #11
-	add 	r1, r1, #1
-	ldr 	r0, =0x0;
-	ldr 	r2, =(CONFIG_SYS_TEXT_BASE)
-
-	push {lr} // save the temp reg
-	push {r2}
-
-	bl	nand_read
-	pop {r4}
-	pop {lr}
-	ldr 	pc, =relocations
-#endif
-
-relocations:
 	/*
 	 * fix .rel.dyn relocations
 	 */

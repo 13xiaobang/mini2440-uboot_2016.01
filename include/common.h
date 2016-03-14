@@ -534,6 +534,9 @@ void	mmu_disable(void);
 void	relocate_code(ulong);
 #else
 void	relocate_code(ulong, gd_t *, ulong) __attribute__ ((noreturn));
+#ifdef CONFIG_S3C2440_NAND_BOOT
+void	first_relocate_code(ulong, gd_t *, ulong) __attribute__ ((noreturn));
+#endif
 #endif
 ulong	get_endaddr   (void);
 void	trap_init     (ulong);

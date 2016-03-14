@@ -21,6 +21,9 @@ ifdef CONFIG_ARM64
 obj-y	+= relocate_64.o
 else
 obj-y	+= relocate.o
+ifdef CONFIG_S3C2440_NAND_BOOT
+obj-y   += first_relocate.o
+endif
 endif
 
 obj-$(CONFIG_CPU_V7M) += cmd_boot.o
