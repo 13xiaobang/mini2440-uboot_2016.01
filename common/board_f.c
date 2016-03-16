@@ -72,7 +72,7 @@ DECLARE_GLOBAL_DATA_PTR = (gd_t *) (CONFIG_SYS_INIT_GD_ADDR);
 #else
 DECLARE_GLOBAL_DATA_PTR;
 #endif
-#define debug printf
+
 /*
  * TODO(sjg@chromium.org): IMO this code should be
  * refactored to a single function, something like:
