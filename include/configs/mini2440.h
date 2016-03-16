@@ -103,7 +103,6 @@
 #define CONFIG_RESET_TO_RETRY
 #define CONFIG_ZERO_BOOTDELAY_CHECK
 
-#define CONFIG_NET_RANDOM_ETHADDR
 #define CONFIG_ETHADDR   08:00:3e:26:0a:5b  //开发板MAC地址
 #define CONFIG_NETMASK   255.255.255.0
 #define CONFIG_IPADDR    192.168.1.10      //开发板IP地址
@@ -162,9 +161,16 @@
 #define CONFIG_SYS_FLASH_BANKS_LIST     { CONFIG_SYS_FLASH_BASE }
 #define CONFIG_SYS_MAX_FLASH_SECT	(19)
 
+#if 0 /*env is not in nor flash*/
 #define CONFIG_ENV_ADDR			(CONFIG_SYS_FLASH_BASE + 0x070000)
 #define CONFIG_ENV_IS_IN_FLASH
 #define CONFIG_ENV_SIZE			0x10000
+#endif
+#define CONFIG_ENV_IS_IN_NAND
+#define CONFIG_ENV_OFFSET      0x100000
+#define CONFIG_ENV_SIZE        0x10000 /* Total Size of Environment Sector */
+
+
 /* allow to overwrite serial and ethaddr */
 #define CONFIG_ENV_OVERWRITE
 
@@ -222,5 +228,8 @@
 #define CONFIG_BOARD_EARLY_INIT_F
 #define CONFIG_MINI2440_ASM_PRINT
 #define CONFIG_CMD_BURN_IMG
+
+#define CONFIG_EXTRA_ENV_SETTINGS \
+	"ethaddr=08:00:3e:26:0a:5b\0" \
 
 #endif /* __CONFIG_H */

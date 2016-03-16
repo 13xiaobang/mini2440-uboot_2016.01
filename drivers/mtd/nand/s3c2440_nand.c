@@ -59,7 +59,7 @@ static void s3c2440_hwcontrol(struct mtd_info *mtd, int cmd, unsigned int ctrl)
 		if (!(ctrl & NAND_ALE))                //要写的是命令
 			IO_ADDR_W |= S3C2440_ADDR_NCLE;
 
-		if (ctrl & NAND_NCE) 
+		if (ctrl & NAND_NCE)
 			NFCONT &= ~S3C2440_NFCONT_nCE;    //使能nand flash
 		else
 			NFCONT |= S3C2440_NFCONT_nCE;     //禁止nand flash
