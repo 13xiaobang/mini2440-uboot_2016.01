@@ -232,4 +232,26 @@
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	"ethaddr=08:00:3e:26:0a:5b\0" \
 
+
+#define CONFIG_CMD_BMP
+#define CONFIG_LCD
+#define CONFIG_MINI2440_FB
+#define CONFIG_MINI2440_LCD
+
+#define LCD_COLOR16 4
+#define LCD_COLOR24 5
+
+/*#define LCD_BPP LCD_COLOR16 */
+#define LCD_BPP LCD_COLOR24
+
+#if (LCD_BPP == LCD_COLOR16)
+#define CONFIG_BMP_16BPP
+#elif (LCD_BPP == LCD_COLOR24)
+#define CONFIG_BMP_24BMP
+#endif
+
+
+#define CONFIG_SYS_CONSOLE_IS_IN_ENV
+
+
 #endif /* __CONFIG_H */

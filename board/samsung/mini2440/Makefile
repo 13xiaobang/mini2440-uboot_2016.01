@@ -7,3 +7,4 @@
 extra-y = nand_read.o
 obj-y	:= mini2440.o
 extra-y	+= lowlevel_init.o
+obj-$(CONFIG_MINI2440_FB)+=mini2440_fb.o
