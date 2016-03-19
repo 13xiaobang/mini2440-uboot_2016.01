@@ -47,21 +47,23 @@ int do_burn_img (cmd_tbl_t *cmdtp, int flag, int argc,char* const argv[])
     len = min(blocksize, length);
 
     while (amount_saved < length && offset < end) {
+        /*we must comfirm that the top area nand is OK when burn uboot image,
+          because we do not judge bad block when
+          relocate uboot image.So nand_block_isbad seems useless.*/
         if (nand_block_isbad(&nand_info[0], offset)) {
             offset += blocksize;
         } else {
             char_ptr = &buf[amount_saved];
             if (nand_write(&nand_info[0], offset, &len, char_ptr))
+            {
+                printf("write error , amount_saved=%d\r\n",amount_saved);
                 return 1;
-
+            }
             offset += blocksize;
             amount_saved += len;
         }
     }
-    if (amount_saved != length)
-    {
-        printf("write not finished ???\r\n");
-    }
+    printf("amount_writed = 0x%x, length=0x%x\r\n",amount_saved,length);
     printf("done.\r\n");
     return 0;
 }
