@@ -133,7 +133,7 @@ static void Lcd_PowerEnable(int powerEnable)
     GPGCON = GPGCON | (3<<8); //GPG4=LCD_PWREN
 
     //Enable LCD POWER ENABLE Function
-    LCDCON5 = LCDCON5&(~(1<<3))|(powerEnable<<3);   // PWREN
+    LCDCON5 = (LCDCON5&(~(1<<3)))|(powerEnable<<3);   // PWREN
     //LCDCON5 = LCDCON5&(~(1<<5))|(invpwren<<5);   // INVPWREN
 }
 

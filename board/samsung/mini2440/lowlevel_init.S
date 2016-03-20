@@ -129,7 +129,7 @@ lowlevel_init:
 
 	.ltorg
 /* the literal pools origin */
-
+/*we should enable burst operation to fix unexpect DDR error*/
 SMRDATA:
     .word (0+(B1_BWSCON<<4)+(B2_BWSCON<<8)+(B3_BWSCON<<12)+(B4_BWSCON<<16)+(B5_BWSCON<<20)+(B6_BWSCON<<24)+(B7_BWSCON<<28))
     .word ((B0_Tacs<<13)+(B0_Tcos<<11)+(B0_Tacc<<8)+(B0_Tcoh<<6)+(B0_Tah<<4)+(B0_Tacp<<2)+(B0_PMC))
@@ -141,6 +141,6 @@ SMRDATA:
     .word ((B6_MT<<15)+(B6_Trcd<<2)+(B6_SCAN))
     .word ((B7_MT<<15)+(B7_Trcd<<2)+(B7_SCAN))
     .word ((REFEN<<23)+(TREFMD<<22)+(Trp<<20)+(Trc<<18)+(Tchr<<16)+REFCNT)
-    .word 0x32
+    .word (0x32|0x80)
     .word 0x30
     .word 0x30

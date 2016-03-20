@@ -250,6 +250,8 @@
 #define CONFIG_BMP_24BMP
 #endif
 
+#define CONFIG_BOOTARGS         "noinitrd root=/dev/mtdblock3 init=/linuxrc console=ttySAC0"
+
 
 #define CONFIG_SYS_CONSOLE_IS_IN_ENV
 
