@@ -263,7 +263,6 @@ irq:
 	irq_save_user_regs
 	bl	do_irq
 	irq_restore_user_regs
-
 	.align	5
 fiq:
 	get_fiq_stack

@@ -56,42 +56,42 @@ struct s3c24x0_usb_host {
 
 /* INTERRUPT (see manual chapter 14) */
 struct s3c24x0_interrupt {
-	u32	srcpnd;
-	u32	intmod;
-	u32	intmsk;
-	u32	priority;
-	u32	intpnd;
-	u32	intoffset;
+	volatile u32	srcpnd;
+	volatile u32	intmod;
+	volatile u32	intmsk;
+	volatile u32	priority;
+	volatile u32	intpnd;
+	volatile u32	intoffset;
 #if defined(CONFIG_S3C2410) || defined(CONFIG_S3C2440)
-	u32	subsrcpnd;
-	u32	intsubmsk;
+	volatile u32	subsrcpnd;
+	volatile u32	intsubmsk;
 #endif
 };
 
 
 /* DMAS (see manual chapter 8) */
 struct s3c24x0_dma {
-	u32	disrc;
+	volatile u32	disrc;
 #if defined(CONFIG_S3C2410) || defined(CONFIG_S3C2440)
-	u32	disrcc;
+	volatile u32	disrcc;
 #endif
-	u32	didst;
+	volatile u32	didst;
 #if defined(CONFIG_S3C2410) || defined(CONFIG_S3C2440)
-	u32	didstc;
+	volatile u32	didstc;
 #endif
-	u32	dcon;
-	u32	dstat;
-	u32	dcsrc;
-	u32	dcdst;
-	u32	dmasktrig;
+	volatile u32	dcon;
+	volatile u32	dstat;
+	volatile u32	dcsrc;
+	volatile u32	dcdst;
+	volatile u32	dmasktrig;
 #if defined(CONFIG_S3C2400) || defined(CONFIG_S3C2410) \
 		|| defined(CONFIG_S3C2440)
-	u32	res[1];
+	volatile u32	res[1];
 #endif
 };
 
 struct s3c24x0_dmas {
-	struct s3c24x0_dma	dma[4];
+	volatile struct s3c24x0_dma	dma[4];
 };
 
 
@@ -211,8 +211,8 @@ struct s3c24x0_usb_dev_fifos {
 	u8	res[3];
 	u8	ep_fifo_reg;
 #else /*  little endian */
-	u8	ep_fifo_reg;
-	u8	res[3];
+	volatile u8	ep_fifo_reg;
+	volatile u8	res[3];
 #endif
 };
 
@@ -231,18 +231,18 @@ struct s3c24x0_usb_dev_dmas {
 	u8	res6[3];
 	u8	ep_dma_ttc_h;
 #else /*  little endian */
-	u8	ep_dma_con;
-	u8	res1[3];
-	u8	ep_dma_unit;
-	u8	res2[3];
-	u8	ep_dma_fifo;
-	u8	res3[3];
-	u8	ep_dma_ttc_l;
-	u8	res4[3];
-	u8	ep_dma_ttc_m;
-	u8	res5[3];
-	u8	ep_dma_ttc_h;
-	u8	res6[3];
+	volatile u8	ep_dma_con;
+	volatile u8	res1[3];
+	volatile u8	ep_dma_unit;
+	volatile u8	res2[3];
+	volatile u8	ep_dma_fifo;
+	volatile u8	res3[3];
+	volatile u8	ep_dma_ttc_l;
+	volatile u8	res4[3];
+	volatile u8	ep_dma_ttc_m;
+	volatile u8	res5[3];
+	volatile u8	ep_dma_ttc_h;
+	volatile u8	res6[3];
 #endif
 };
 
@@ -281,25 +281,26 @@ struct s3c24x0_usb_device {
 	u8	res16[3];
 	u8	out_fifo_cnt2_reg;
 #else /*  little endian */
-	u8	func_addr_reg;
-	u8	res1[3];
-	u8	pwr_reg;
-	u8	res2[3];
-	u8	ep_int_reg;
-	u8	res3[15];
-	u8	usb_int_reg;
-	u8	res4[3];
-	u8	ep_int_en_reg;
-	u8	res5[15];
-	u8	usb_int_en_reg;
-	u8	res6[3];
-	u8	frame_num1_reg;
-	u8	res7[3];
-	u8	frame_num2_reg;
-	u8	res8[3];
-	u8	index_reg;
-	u8	res9[7];
-	u8	maxp_reg;
+	volatile u8	func_addr_reg;
+	volatile u8	res1[3];
+	volatile u8	pwr_reg;
+	volatile u8	res2[3];
+	volatile u8	ep_int_reg;
+	volatile u8	res3[15];
+	volatile u8	usb_int_reg;
+	volatile u8	res4[3];
+	volatile u8	ep_int_en_reg;
+	volatile u8	res5[15];
+	volatile u8	usb_int_en_reg;
+	volatile u8	res6[3];
+	volatile u8	frame_num1_reg;
+	volatile u8	res7[3];
+	volatile u8	frame_num2_reg;
+	volatile u8	res8[3];
+	volatile u8	index_reg;
+	volatile u8	res9[7];
+	volatile u8	maxp_reg;
+#ifndef CONFIG_MINI2440
 	u8	res10[7];
 	u8	ep0_csr_in_csr1_reg;
 	u8	res11[3];
@@ -308,22 +309,43 @@ struct s3c24x0_usb_device {
 	u8	out_csr1_reg;
 	u8	res13[7];
 	u8	out_csr2_reg;
-	u8	res14[3];
-	u8	out_fifo_cnt1_reg;
-	u8	res15[3];
-	u8	out_fifo_cnt2_reg;
-	u8	res16[3];
+#else
+	volatile u8	res10[3];
+	volatile u8	ep0_csr_in_csr1_reg;
+	volatile u8	res11[3];
+	volatile u8	in_csr2_reg;
+	volatile u8	res12[7];
+	volatile u8	out_csr1_reg;
+	volatile u8	res13[3];
+	volatile u8	out_csr2_reg;
+#endif
+	volatile u8	res14[3];
+	volatile u8	out_fifo_cnt1_reg;
+	volatile u8	res15[3];
+	volatile u8	out_fifo_cnt2_reg;
+	volatile u8	res16[3];
 #endif /*  __BIG_ENDIAN */
+#ifndef CONFIG_MINI2440
 	struct s3c24x0_usb_dev_fifos	fifo[5];
 	struct s3c24x0_usb_dev_dmas	dma[5];
+#else
+	u32   res17[8];
+	volatile struct s3c24x0_usb_dev_fifos   fifo[5];
+	u32   res18[11];
+	volatile struct s3c24x0_usb_dev_dmas    ep1;
+	volatile struct s3c24x0_usb_dev_dmas    ep2;
+	u8    res19[16];
+	volatile struct s3c24x0_usb_dev_dmas    ep3;
+	volatile struct s3c24x0_usb_dev_dmas    ep4;
+#endif
 };
 
 
 /* WATCH DOG TIMER (see manual chapter 18) */
 struct s3c24x0_watchdog {
-	u32	wtcon;
-	u32	wtdat;
-	u32	wtcnt;
+	volatile u32	wtcon;
+	volatile u32	wtdat;
+	volatile u32	wtcnt;
 };
 
 /* IIS (see manual chapter 21) */
@@ -440,63 +462,63 @@ struct s3c24x0_gpio {
 	u32	gstatus4;
 #endif
 #if defined(CONFIG_S3C2440)
-	u32	gpacon;
-	u32	gpadat;
-	u32	res1[2];
-	u32	gpbcon;
-	u32	gpbdat;
-	u32	gpbup;
-	u32	res2;
-	u32	gpccon;
-	u32	gpcdat;
-	u32	gpcup;
-	u32	res3;
-	u32	gpdcon;
-	u32	gpddat;
-	u32	gpdup;
-	u32	res4;
-	u32	gpecon;
-	u32	gpedat;
-	u32	gpeup;
-	u32	res5;
-	u32	gpfcon;
-	u32	gpfdat;
-	u32	gpfup;
-	u32	res6;
-	u32	gpgcon;
-	u32	gpgdat;
-	u32	gpgup;
-	u32	res7;
-	u32	gphcon;
-	u32	gphdat;
-	u32	gphup;
-	u32	res8;
+	volatile u32	gpacon;
+	volatile u32	gpadat;
+	volatile u32	res1[2];
+	volatile u32	gpbcon;
+	volatile u32	gpbdat;
+	volatile u32	gpbup;
+	volatile u32	res2;
+	volatile u32	gpccon;
+	volatile u32	gpcdat;
+	volatile u32	gpcup;
+	volatile u32	res3;
+	volatile u32	gpdcon;
+	volatile u32	gpddat;
+	volatile u32	gpdup;
+	volatile u32	res4;
+	volatile u32	gpecon;
+	volatile u32	gpedat;
+	volatile u32	gpeup;
+	volatile u32	res5;
+	volatile u32	gpfcon;
+	volatile u32	gpfdat;
+	volatile u32	gpfup;
+	volatile u32	res6;
+	volatile u32	gpgcon;
+	volatile u32	gpgdat;
+	volatile u32	gpgup;
+	volatile u32	res7;
+	volatile u32	gphcon;
+	volatile u32	gphdat;
+	volatile u32	gphup;
+	volatile u32	res8;
 
-	u32	misccr;
-	u32	dclkcon;
-	u32	extint0;
-	u32	extint1;
-	u32	extint2;
-	u32	eintflt0;
-	u32	eintflt1;
-	u32	eintflt2;
-	u32	eintflt3;
-	u32	eintmask;
-	u32	eintpend;
-	u32	gstatus0;
-	u32	gstatus1;
-	u32	gstatus2;
-	u32	gstatus3;
-	u32	gstatus4;
+	volatile u32	misccr;
+	volatile u32	dclkcon;
+	volatile u32	extint0;
+	volatile u32	extint1;
+	volatile u32	extint2;
+	volatile u32	eintflt0;
+	volatile u32	eintflt1;
+	volatile u32	eintflt2;
+	volatile u32	eintflt3;
+	volatile u32	eintmask;
+	volatile u32	eintpend;
+	volatile u32	gstatus0;
+	volatile u32	gstatus1;
+	volatile u32	gstatus2;
+	volatile u32	gstatus3;
+	volatile u32	gstatus4;
 
-	u32	res9;
-	u32	dsc0;
-	u32	dsc1;
-	u32	mslcon;
-	u32	gpjcon;
-	u32	gpjdat;
-	u32	gpjup;
-	u32	res10;
+	volatile u32	res9;
+	volatile u32	dsc0;
+	volatile u32	dsc1;
+	volatile u32	mslcon;
+	volatile u32	gpjcon;
+	volatile u32	gpjdat;
+	volatile u32	gpjup;
+	volatile u32	res10;
 #endif
 };
 

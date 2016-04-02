@@ -660,6 +660,7 @@ libs-y += drivers/serial/
 libs-y += drivers/usb/dwc3/
 libs-y += drivers/usb/emul/
 libs-y += drivers/usb/eth/
+libs-y += drivers/usb/slave/
 libs-y += drivers/usb/gadget/
 libs-y += drivers/usb/gadget/udc/
 libs-y += drivers/usb/host/

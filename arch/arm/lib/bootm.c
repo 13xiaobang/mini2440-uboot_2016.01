@@ -82,7 +82,7 @@ static void announce_and_cleanup(int fake)
 #endif
 
 #ifdef CONFIG_USB_DEVICE
-	udc_disconnect();
+	//udc_disconnect();
 #endif
 	cleanup_before_linux();
 }

@@ -29,7 +29,8 @@ DECLARE_GLOBAL_DATA_PTR;
 int interrupt_init (void)
 {
 	unsigned long cpsr;
-
+	printf("+++\r\n");
+		Port_Init();
 	/*
 	 * setup up stacks if necessary
 	 */

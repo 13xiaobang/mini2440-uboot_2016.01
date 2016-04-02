@@ -91,6 +91,9 @@ int board_early_init_f(void)
 	writel(0x002AFAAA, &gpio->gphcon);
 	writel(0x000007FF, &gpio->gphup);
 
+//#ifdef CONFIG_MINI2440_USB_SLAVE
+	Port_Init();
+//#endif
 	return 0;
 }
 
@@ -101,7 +104,6 @@ int board_init(void)
 
 	/* adress of boot parameters */
 	gd->bd->bi_boot_params = 0x30000100;
-
 	icache_enable();
 	dcache_enable();
 
@@ -145,5 +147,15 @@ ulong board_flash_get_legacy(ulong base, int banknum, flash_info_t *info)
 int board_mmc_init(bd_t *bis)
 {
 	return s3cmmc_initialize(bis, NULL,NULL);
+}
+#endif
+
+#ifdef CONFIG_MINI2440_USB_SLAVE
+int	arch_interrupt_init	(void)
+{
+	//udelay(1000000);
+	printf("arch_interrupt_init\r\n");
+	usb_init_slave();
+	return 0;
 }
 #endif

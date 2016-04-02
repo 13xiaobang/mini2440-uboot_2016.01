@@ -20,7 +20,8 @@
 
 void do_irq (struct pt_regs *pt_regs)
 {
-	struct s3c24x0_interrupt *irq = s3c24x0_get_base_interrupt();
-	u_int32_t intpnd = readl(&irq->INTPND);
+	//struct s3c24x0_interrupt *irq = s3c24x0_get_base_interrupt();
+	//u_int32_t intpnd = readl(&irq->INTPND);
+	IRQ_Handle(pt_regs);
 
 }
