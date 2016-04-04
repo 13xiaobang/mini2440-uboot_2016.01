@@ -63,13 +63,6 @@
 #include <config.h>
 #include <linux/linkage.h>
 
-#if 0
-.globl _end_ofs
-_end_ofs:
-	.word __image_copy_end - __image_copy_start
-#endif
-
-
 /*
  * entry point of crt0 sequence
  */

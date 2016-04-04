@@ -222,8 +222,12 @@
 
 /* additions for new relocation code, must be added to all boards */
 #define CONFIG_SYS_SDRAM_BASE	PHYS_SDRAM_1
+/*
 #define CONFIG_SYS_INIT_SP_ADDR	(CONFIG_SYS_SDRAM_BASE + 0x1000 - \
 				GENERATED_GBL_DATA_SIZE)
+//here , GENERATED_GBL_DATA_SIZE is not necessary to reserve because in board_init_f_mem it will reserve it.
+*/
+#define CONFIG_SYS_INIT_SP_ADDR	(CONFIG_SYS_SDRAM_BASE + 0x1000)
 
 #define CONFIG_BOARD_EARLY_INIT_F
 #define CONFIG_MINI2440_ASM_PRINT
@@ -251,7 +255,7 @@
 #endif
 
 #define CONFIG_BOOTARGS         "noinitrd root=/dev/mtdblock3 init=/linuxrc console=ttySAC0"
-
+#define CONFIG_MACH_TYPE 1999
 
 #define CONFIG_SYS_CONSOLE_IS_IN_ENV
 

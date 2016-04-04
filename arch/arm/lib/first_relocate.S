@@ -33,7 +33,6 @@ _TEXT_BASE:
 
 ENTRY(first_relocate_code)
 #ifdef CONFIG_S3C2440_NAND_BOOT
-	//ldr	sp, =0x30008000
 	ldr    r0, = __image_copy_start
 	ldr 	r1, =__image_copy_end
 	sub  r1, r1, r0

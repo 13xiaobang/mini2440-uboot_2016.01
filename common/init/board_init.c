@@ -15,9 +15,9 @@ DECLARE_GLOBAL_DATA_PTR;
  * It isn't trivial to figure out whether memcpy() exists. The arch-specific
  * memcpy() is not normally available in SPL due to code size.
  */
-#if !defined(CONFIG_SPL_BUILD) || \
+#if (!defined(CONFIG_MINI2440))&&(!defined(CONFIG_SPL_BUILD) || \
 		(defined(CONFIG_SPL_LIBGENERIC_SUPPORT) && \
-		!defined(CONFIG_USE_ARCH_MEMSET))
+		!defined(CONFIG_USE_ARCH_MEMSET)))
 #define _USE_MEMCPY
 #endif
 
@@ -32,7 +32,7 @@ __weak void arch_setup_gd(struct global_data *gd_ptr)
 ulong board_init_f_mem(ulong top)
 {
 	struct global_data *gd_ptr;
-#if 1
+#ifndef _USE_MEMCPY
 	int *ptr;
 #endif
 
@@ -42,7 +42,7 @@ ulong board_init_f_mem(ulong top)
 	top -= sizeof(struct global_data);
 	top = ALIGN(top, 16);
 	gd_ptr = (struct global_data *)top;
-#if 0
+#ifdef _USE_MEMCPY
 	memset(gd_ptr, '\0', sizeof(*gd));
 #else
 	for (ptr = (int *)gd_ptr; ptr < (int *)(gd_ptr + 1); )
