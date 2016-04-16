@@ -259,5 +259,16 @@
 
 #define CONFIG_SYS_CONSOLE_IS_IN_ENV
 
+#define MINI2440_WATCHDOG
+#ifdef MINI2440_WATCHDOG
+#define CONFIG_USE_IRQ
+#define CONFIG_CMD_MINI2440_WATCHDOG
+#endif
+
+#if defined(CONFIG_USE_IRQ)
+#define CONFIG_STACKSIZE_IRQ	(4 * 1024)
+#define CONFIG_STACKSIZE_FIQ	(4 * 1024)
+#endif
+
 
 #endif /* __CONFIG_H */
