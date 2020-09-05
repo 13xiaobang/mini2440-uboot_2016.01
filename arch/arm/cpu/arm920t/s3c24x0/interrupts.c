@@ -74,5 +74,6 @@ void do_irq (struct pt_regs *pt_regs)
 int arch_interrupt_init(void)
 {
     isr_init();
+    return 0;
 }
 #endif
